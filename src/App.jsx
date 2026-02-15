@@ -5,20 +5,23 @@ import Home from './pages/Home'
 import Dashboard from './pages/Dashboard'
 import Signup from './pages/Signup'
 import Login from './pages/Login'
+import PrivateRoute from './components/PrivateRoute'
 
 const App = () => {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false)
 
   return (
-    <div>
+    <div className=' overflow-hidden min-h-screen  bg-richblack-900
+ flex flex-col'>
       <Navbar 
         isLoggedIn={isLoggedIn} 
         setIsLoggedIn={setIsLoggedIn} 
       />
 
-      <Routes>
-        <Route path='/' element={<Home />} />
+        <div className="flex-1 overflow-hidden">
+     <Routes>
+        <Route path='/' element={<Home isLoggedIn={isLoggedIn}/>} />
         <Route 
           path='/login' 
           element={<Login setIsLoggedIn={setIsLoggedIn} />} 
@@ -27,8 +30,16 @@ const App = () => {
           path='/signup' 
           element={<Signup setIsLoggedIn={setIsLoggedIn} />} 
         />
-        <Route path='/dashboard' element={<Dashboard />} />
+        <Route path='/dashboard' element={
+         
+           <PrivateRoute isLoggedIn={isLoggedIn}>
+              <Dashboard/>
+          </PrivateRoute>
+          
+          } />
       </Routes>
+        </div>
+    
     </div>
   )
 }
